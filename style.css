@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-weight: 300;
+}
+
+.btn {
+    background-color: white;
+    border: none;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 18px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.page-container {
+    width: 80%;
+    max-width: 400px;
+    max-height: 700px;
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 10px 20px 20px 20px;
+    background-color: rgb(215, 231, 239);
+    overflow-y: scroll;
+    margin: 0 20px;
+}
+
+.page-container h1 {
+    color: rgb(27, 26, 57);
+    font-weight: 700;
+    font-size: 28px;
+}
+
+.clothes-controls-container {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.clothes-controls-container input[type=text] {
+    font-size: 20px;
+    height: 40px;
+    width: 100%;
+    border-radius: 10px;
+    border: 2px solid rgb(162, 204, 220);
+    padding: 0 10px;
+    outline: none;
+    color: rgb(27, 26, 57);
+    transition: border 0.3s ease-in;
+}
+
+.clothes-controls-container input[type=text]:focus {
+    border: 2px solid rgb(93, 131, 145); 
+}
+
+.add-clothing-btn {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.clothes-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+}
+
+.clothing {
+    background-color: white;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    align-items: center;
+    cursor: pointer;
+    height: 300px;
+}
+
+.clothing img {
+    width: 90%;
+    height: 90%;
+    border-radius: 10px;
+    object-fit: cover;
+    text-align: center;
+    margin-bottom: 10px;
+    aspect-ratio: 1 / 1;
+}
+
+.clothing-title {
+    border-bottom: 1px solid rgb(162, 204, 220);
+    padding-bottom: 5px;
+}
+
+.clothing-title .brand {
+    font-weight: 400;
+}
+
+@media (max-width: 800px) {
+    .page-container {
+        width: 90%;
+    }
+
+    .clothes-container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
