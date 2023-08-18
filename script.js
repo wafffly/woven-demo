@@ -1,7 +1,16 @@
 let viewClothesContainerElement = document.getElementById('view-clothes-container');
 let clothesContainerElement = document.getElementById('clothes-container');
 let addClothingButton = document.getElementById('add-clothing');
+
+let imageUploadInput = document.getElementById('clothing-photo');
+let titleInput = document.getElementById('clothing-title');
+let brandInput = document.getElementById('clothing-brand');
+let categorySelect = document.getElementById('clothing-category');
+let priceInput = document.getElementById('clothing-price');
+let colorInput = document.getElementById('clothing-color');
+
 let nextId = 1;
+let clothingList = [];
 
 /*
 HANDLE PAGE LOADS AND REMOVES
@@ -38,6 +47,13 @@ function loadAddClothingView() {
         uploadClothingImageInput = document.getElementById('clothing-photo');
         saveClothingButton = document.getElementById('save-clothing');
 
+        imageUploadInput = document.getElementById('clothing-photo');
+        titleInput = document.getElementById('clothing-title');
+        brandInput = document.getElementById('clothing-brand');
+        categorySelect = document.getElementById('clothing-category');
+        priceInput = document.getElementById('clothing-price');
+        colorInput = document.getElementById('clothing-color');
+
         // Event handlers
         closeAddClothingContainerButton.addEventListener('click', handleClickCloseAddClothingView);
         saveClothingButton.addEventListener('click', handleClickSaveClothing);
@@ -58,14 +74,6 @@ function closeAddClothingView() {
 EVENT HANDLERS
 */
 function handleClickSaveClothing() {
-    // get the values
-    const imageUploadInput = document.getElementById('clothing-photo');
-    const titleInput = document.getElementById('clothing-title');
-    const brandInput = document.getElementById('clothing-brand');
-    const categorySelect = document.getElementById('clothing-category');
-    const priceInput = document.getElementById('clothing-price');
-    const colorInput = document.getElementById('clothing-color');
-
     const isValid = validateSaveClothing([
         imageUploadInput, 
         titleInput, 
@@ -78,7 +86,7 @@ function handleClickSaveClothing() {
     if (!isValid) return;
 
     saveClothing(
-        imageUploadInput.value, 
+        imageUploadInput, 
         titleInput.value, 
         brandInput.value,
         categorySelect.value, 
@@ -105,31 +113,69 @@ function handleClickAddClothingView() {
 /*
 FETCH DATA / SAVE DATA
 */
-function populateClothes() {
+async function populateClothes() {
     nextId = 1;
-    fetch('data/clothing.json')
-        .then(res => res.json())
-        .then(data => {
-            data.forEach((clothing) => {
-                // increment nextId
-                nextId++;
+    clothingList = [];
+    // first check the local storage for clothes
+    if (localStorage.getItem('clothing') != null) {
+        clothingList = JSON.parse(localStorage.getItem('clothing'));
+    } else {
+        clothingList = await fetch('data/clothing.json')
+            .then(res => res.json());
+        saveClothingLocalStorage();
+    }
 
-                // create clothing element
-                const clothingElement = createClothingElement(clothing);
-                clothesContainerElement.appendChild(clothingElement);
-            });
-        });
+    clothingList.forEach(clothing => {
+        nextId++;
+        const clothingElement = createClothingElement(clothing);
+        clothesContainerElement.insertBefore(clothingElement, clothesContainerElement.firstChild);
+    })
+}
+
+function saveClothingLocalStorage() {
+    if (clothingList !== []) {
+        localStorage.setItem('clothing', JSON.stringify(clothingList));
+    }
 }
 
 function saveClothing(imageFile, title, brand, category, price, color) {
-    // implement
-    console.log(getNextClothingId());
+    const imageFileURL = URL.createObjectURL(imageFile.files[0]);
+    const clothing = {
+        id: getNextClothingId(),
+        imageFile: imageFileURL,
+        brand,
+        title,
+        color,
+        price,
+        category
+    };
+
+    clothingList.push(clothing);
+    saveClothingLocalStorage();
+
+    displayAddClothingSuccess();
+
+    const newClothingElement = createClothingElement(clothing);
+    clothesContainerElement.insertBefore(newClothingElement, clothesContainerElement.firstChild);
 }
 
 
 /*
 GENERAL HELPERS/VALIDATORS
 */
+function displayAddClothingSuccess() {
+    // make all the inputs disabled
+    imageUploadInput.disabled = true;
+    titleInput.disabled = true;
+    brandInput.disabled = true;
+    categorySelect.disabled = true;
+    priceInput.disabled = true;
+
+    const addClothingFormElement = document.getElementById('add-clothing-form');
+    addClothingFormElement.classList.add('disabled');
+    console.log("disabled");
+}
+
 function validateSaveClothing(inputs) {
     let isValid = true;
 
@@ -158,11 +204,11 @@ function getNextClothingId() {
 DOM ELEMENT CREATION HELPERS
 */
 function createClothingElement(clothing) {
-    const { id, brand, title, color, price } = clothing;
+    const { id, imageFile, brand, title, color, price } = clothing;
     const clothingElement = document.createElement('div');
     clothingElement.innerHTML = `
         <div class="clothing" id="${id}">
-            <img src="../images/${id}.jpeg" alt="${id}">
+            <img src="${imageFile}" alt="${id}">
             <div class="clothing-title">
                 <span class="brand">${brand} </span>
                 ${title}

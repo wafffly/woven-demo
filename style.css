@@ -148,6 +148,11 @@ input, select {
     justify-content: center;
 }
 
+.add-clothing-form.disabled input, select, .upload-clothing-picture-button {
+    border-color: grey;
+    color: grey;
+}
+
 .form-control {
     margin: 5px 0;
     display: flex;

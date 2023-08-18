@@ -1,41 +1,48 @@
 [{
     "id": "clothing-1",
+    "imageFile": "../images/clothing-1.jpeg", 
     "title": "Chunky Cream Turtleneck",
     "brand": "&Daughter",
     "color": "cream",
     "price": 400.00
 }, {
     "id": "clothing-2",
+    "imageFile": "../images/clothing-2.jpeg", 
     "title": "Retro Sneakers",
     "brand": "Khaite",
     "color": "camel",
     "price": 300.00
 }, {
     "id": "clothing-3",
+    "imageFile": "../images/clothing-3.jpeg", 
     "title": "Chunky Strap Sandals",
     "brand": "Maguire",
     "color": "black",
     "price": 200.00
 }, {
     "id": "clothing-4",
+    "imageFile": "../images/clothing-4.jpeg", 
     "title": "Wide Leg Pants",
     "brand": "Harly Jae",
     "color": "beige",
     "price": 240.00
 }, {
     "id": "clothing-5",
+    "imageFile": "../images/clothing-5.jpeg", 
     "title": "Stripe Longsleeve Tee",
     "brand": "Arket",
     "color": "black/white stripes",
     "price": 40.00
 }, {
     "id": "clothing-6",
+    "imageFile": "../images/clothing-6.jpeg", 
     "title": "Oversized Tee",
     "brand": "Arket",
     "color": "beige",
     "price": 35.00
 }, {
     "id": "clothing-7",
+    "imageFile": "../images/clothing-7.jpeg", 
     "title": "Crochet Bucket Hat",
     "brand": "Kotn",
     "color": "green/beige checks",
