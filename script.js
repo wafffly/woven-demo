@@ -61,6 +61,7 @@ function handleClickSaveClothing() {
     // get the values
     const imageUploadInput = document.getElementById('clothing-photo');
     const titleInput = document.getElementById('clothing-title');
+    const brandInput = document.getElementById('clothing-brand');
     const categorySelect = document.getElementById('clothing-category');
     const priceInput = document.getElementById('clothing-price');
     const colorInput = document.getElementById('clothing-color');
@@ -68,6 +69,7 @@ function handleClickSaveClothing() {
     const isValid = validateSaveClothing([
         imageUploadInput, 
         titleInput, 
+        brandInput,
         categorySelect, 
         priceInput, 
         colorInput
@@ -78,6 +80,7 @@ function handleClickSaveClothing() {
     saveClothing(
         imageUploadInput.value, 
         titleInput.value, 
+        brandInput.value,
         categorySelect.value, 
         priceInput.value, 
         colorInput.value
@@ -118,11 +121,10 @@ function populateClothes() {
         });
 }
 
-function saveClothing(imageFile, title, category, price, color) {
+function saveClothing(imageFile, title, brand, category, price, color) {
     // implement
     console.log(getNextClothingId());
 }
-
 
 
 /*
