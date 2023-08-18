@@ -1,7 +1,11 @@
 let viewClothesContainerElement = document.getElementById('view-clothes-container');
 let clothesContainerElement = document.getElementById('clothes-container');
 let addClothingButton = document.getElementById('add-clothing');
+let nextId = 1;
 
+/*
+HANDLE PAGE LOADS AND REMOVES
+*/
 function loadViewClothesView() {
     document.getElementById('main-page-container').classList.add('show');
     setTimeout(() => {
@@ -15,7 +19,7 @@ function loadViewClothesView() {
         addClothingButton = document.getElementById('add-clothing');
 
         // Event handlers
-        addClothingButton.addEventListener('click', loadAddClothingView);
+        addClothingButton.addEventListener('click', handleClickAddClothingView);
 
         // Initialize main page by populating clothes
         populateClothes();
@@ -31,9 +35,13 @@ function loadAddClothingView() {
 
         // DOM elements
         closeAddClothingContainerButton = document.getElementById('close-add-clothing-container');
+        uploadClothingImageInput = document.getElementById('clothing-photo');
+        saveClothingButton = document.getElementById('save-clothing');
 
         // Event handlers
-        closeAddClothingContainerButton.addEventListener('click', closeAddClothingView);
+        closeAddClothingContainerButton.addEventListener('click', handleClickCloseAddClothingView);
+        saveClothingButton.addEventListener('click', handleClickSaveClothing);
+        uploadClothingImageInput.addEventListener('change', handleUploadClothingImage);
     });
 }
 
@@ -46,12 +54,63 @@ function closeAddClothingView() {
     }, 300);
 }
 
-// fetch the JSON clothes and display to DOM
+/*
+EVENT HANDLERS
+*/
+function handleClickSaveClothing() {
+    // get the values
+    const imageUploadInput = document.getElementById('clothing-photo');
+    const titleInput = document.getElementById('clothing-title');
+    const categorySelect = document.getElementById('clothing-category');
+    const priceInput = document.getElementById('clothing-price');
+    const colorInput = document.getElementById('clothing-color');
+
+    const isValid = validateSaveClothing([
+        imageUploadInput, 
+        titleInput, 
+        categorySelect, 
+        priceInput, 
+        colorInput
+    ]);
+
+    if (!isValid) return;
+
+    saveClothing(
+        imageUploadInput.value, 
+        titleInput.value, 
+        categorySelect.value, 
+        priceInput.value, 
+        colorInput.value
+    );
+}
+
+function handleUploadClothingImage() {
+    const imageUploadInputValue = document.getElementById('clothing-photo').value;
+    const fileNameElement = document.getElementById('clothing-photo-file-name');
+
+    fileNameElement.innerText = `You uploaded: ${imageUploadInputValue.replace(/^.*[\\\/]/, '')}`;
+}
+
+function handleClickCloseAddClothingView() {
+    closeAddClothingView();
+}
+
+function handleClickAddClothingView() {
+    loadAddClothingView();
+}
+
+/*
+FETCH DATA / SAVE DATA
+*/
 function populateClothes() {
+    nextId = 1;
     fetch('data/clothing.json')
         .then(res => res.json())
         .then(data => {
             data.forEach((clothing) => {
+                // increment nextId
+                nextId++;
+
                 // create clothing element
                 const clothingElement = createClothingElement(clothing);
                 clothesContainerElement.appendChild(clothingElement);
@@ -59,6 +118,43 @@ function populateClothes() {
         });
 }
 
+function saveClothing(imageFile, title, category, price, color) {
+    // implement
+    console.log(getNextClothingId());
+}
+
+
+
+/*
+GENERAL HELPERS/VALIDATORS
+*/
+function validateSaveClothing(inputs) {
+    let isValid = true;
+
+    inputs.forEach(input => {
+        const smallText = document.getElementById(`${input.id}-small`);
+
+        // clear the errors first
+        smallText.classList.remove('show');
+        smallText.innerText = '';
+        
+        if (input.value.trim() === '') {
+            isValid = false;
+            smallText.innerText = `${input.name} is required.`;
+            smallText.classList.add('show');
+        }
+    });
+
+    return isValid;
+}
+
+function getNextClothingId() {
+    return `clothing-${nextId++}`;
+}
+
+/*
+DOM ELEMENT CREATION HELPERS
+*/
 function createClothingElement(clothing) {
     const { id, brand, title, color, price } = clothing;
     const clothingElement = document.createElement('div');
@@ -79,7 +175,7 @@ function createClothingElement(clothing) {
     return clothingElement;
 }
 
-// Dynamically load content to page container
+// INIT
 $(document).ready(function() {
     loadViewClothesView();
 })

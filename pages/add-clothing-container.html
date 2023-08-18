@@ -5,31 +5,37 @@
         <form id="add-clothing-form" class="add-clothing-form">
             <div class="form-control">
                 <label for="clothing-photo" class="btn upload-clothing-picture-button">Upload a picture</label>
-                <input type="file" id="clothing-photo" accept="image/*">
+                <input type="file" id="clothing-photo" name="Clothing image" accept="image/*">
+                <small id="clothing-photo-file-name" class="large"></small>
+                <small id="clothing-photo-small" class="error">There's an error!</small>
             </div>
             <div class="form-control">
                 <label for="clothing-title">Name of your piece</label>
-                <input type="text" id="clothing-title" placeholder="E.g. Striped Sweater">
+                <input type="text" id="clothing-title" name="Name" placeholder="E.g. Striped Sweater">
+                <small id="clothing-title-small" class="error">There's an error!</small>
             </div>
             <div class="form-control">
                 <label for="clothing-category">Category</label>
-                <select id="clothing-category">
+                <select id="clothing-category" name="Category">
                     <option value="category-top">Top</option>
                     <option value="category-bottom">Bottom</option>
                     <option value="category-accessory">Accessory</option>
                     <option value="category-shoes">Shoes</option>
                     <option value="category-outerwear">Outerwear</option>
                 </select>
+                <small id="clothing-category-small" class="error">There's an error!</small>
             </div>
             <div class="form-control">
                 <label for="clothing-price">Price</label>
-                <input type="number" id="clothing-price" placeholder="200.00">
+                <input type="number" id="clothing-price" name="Price" placeholder="200.00">
+                <small id="clothing-price-small" class="error">There's an error!</small>
             </div>
             <div class="form-control">
                 <label for="clothing-color">Color</label>
-                <input type="text" id="clothing-color" placeholder="Navy/Cream">
+                <input type="text" id="clothing-color" name="Color" placeholder="Navy/Cream">
+                <small id="clothing-color-small" class="error">There's an error!</small>
             </div>
         </form>
-        <button class="btn save-clothing-btn">Save Clothing</button>
+        <button class="btn save-clothing-btn" id="save-clothing">Save Clothing</button>
     </div>
 </div>
