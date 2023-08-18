@@ -1,0 +1,35 @@
+<div class="add-clothing-container" id="add-clothing-container">
+    <button class="btn close-container-btn" id="close-add-clothing-container">X</button>
+    <h1>Add New Clothing</h1>
+    <div class="add-clothing-form-container">
+        <form id="add-clothing-form" class="add-clothing-form">
+            <div class="form-control">
+                <label for="clothing-photo" class="btn upload-clothing-picture-button">Upload a picture</label>
+                <input type="file" id="clothing-photo" accept="image/*">
+            </div>
+            <div class="form-control">
+                <label for="clothing-title">Name of your piece</label>
+                <input type="text" id="clothing-title" placeholder="E.g. Striped Sweater">
+            </div>
+            <div class="form-control">
+                <label for="clothing-category">Category</label>
+                <select id="clothing-category">
+                    <option value="category-top">Top</option>
+                    <option value="category-bottom">Bottom</option>
+                    <option value="category-accessory">Accessory</option>
+                    <option value="category-shoes">Shoes</option>
+                    <option value="category-outerwear">Outerwear</option>
+                </select>
+            </div>
+            <div class="form-control">
+                <label for="clothing-price">Price</label>
+                <input type="number" id="clothing-price" placeholder="200.00">
+            </div>
+            <div class="form-control">
+                <label for="clothing-color">Color</label>
+                <input type="text" id="clothing-color" placeholder="Navy/Cream">
+            </div>
+        </form>
+        <button class="btn save-clothing-btn">Save Clothing</button>
+    </div>
+</div>

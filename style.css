@@ -27,13 +27,26 @@ body {
 .page-container {
     width: 80%;
     max-width: 400px;
-    max-height: 700px;
+    height: 700px;
     border-radius: 10px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     padding: 10px 20px 20px 20px;
     background-color: rgb(215, 231, 239);
     overflow-y: scroll;
     margin: 0 20px;
+    display: none;
+}
+
+.page-container.show {
+    display: block;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+}
+
+.page-container.show.animated {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .page-container h1 {
@@ -43,13 +56,13 @@ body {
 }
 
 .clothes-controls-container {
-    margin: 20px 0;
+    margin: 10px 0;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
 }
 
-.clothes-controls-container input[type=text] {
+input, select {
     font-size: 20px;
     height: 40px;
     width: 100%;
@@ -104,6 +117,53 @@ body {
 
 .clothing-title .brand {
     font-weight: 400;
+}
+
+.add-clothing-form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-clothing-container {
+    position: relative;
+}
+
+.close-container-btn {
+    position: absolute;
+    right: 0;
+    top: -10px;
+}
+
+.add-clothing-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-control {
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-control label {
+    font-weight: 400;
+    margin-bottom: 5px;
+}
+
+.form-control input[type="file"] {
+    display: none;
+}
+
+.upload-clothing-picture-button {
+    display: block;
+    font-weight: 400;
+    text-align: center;
+    padding: 8px;
+}
+
+.save-clothing-btn {
+    margin-top: 20px;
 }
 
 @media (max-width: 800px) {
