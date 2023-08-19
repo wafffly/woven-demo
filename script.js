@@ -55,13 +55,58 @@ function loadAddClothingView() {
         colorInput = document.getElementById('clothing-color');
 
         // Event handlers
-        closeAddClothingContainerButton.addEventListener('click', handleClickCloseAddClothingView);
+        closeAddClothingContainerButton.addEventListener('click', handleClickCloseSidePageContainer);
         saveClothingButton.addEventListener('click', handleClickSaveClothing);
         uploadClothingImageInput.addEventListener('change', handleUploadClothingImage);
     });
 }
 
-function closeAddClothingView() {
+function loadViewClothingView(clothing) {
+    $("#side-page-container").load('pages/view-clothing-container.html', () => {
+        document.getElementById('side-page-container').classList.add('show');
+        setTimeout(() => {
+            document.getElementById('side-page-container').classList.add('animated');
+        }, 50);
+
+        console.log("loaded the piece!", clothing);
+
+        // DOM elements
+        closeViewClothingContainerButton = document.getElementById('close-view-clothing-container');
+        viewImageContainer = document.getElementById('view-clothing-img');
+        viewBrandContainer = document.getElementById('view-clothing-brand');
+        viewTitleContainer = document.getElementById('view-clothing-title');
+        viewColorContainer = document.getElementById('view-clothing-color');
+        viewCategoryContainer = document.getElementById('view-clothing-category');
+        viewPriceContainer = document.getElementById('view-clothing-price');
+
+        viewImageContainer.src = clothing.imageFile;
+        viewBrandContainer.innerHTML = `
+            <span class='label'>Brand</span>
+            <span class='value'>${clothing.brand}</span>
+        `;
+        viewTitleContainer.innerHTML = `
+            <span class='label'>Title</span>
+            <span class='value'>${clothing.title}</span>
+        `;
+        viewColorContainer.innerHTML = `
+            <span class='label'>Color</span>
+            <span class='value'>${clothing.color}</span>
+        `;
+        viewCategoryContainer.innerHTML = `
+            <span class='label'>Category</span>
+            <span class='value'>${clothing.category}</span>
+        `;
+        viewPriceContainer.innerHTML = `
+            <span class='label'>Price</span>
+            <span class='value'>${clothing.price}</span>
+        `;
+
+        // Event handlers
+        closeViewClothingContainerButton.addEventListener('click', handleClickCloseSidePageContainer);
+    })
+}
+
+function closeSidePageContainer() {
     const sidePageContainerElement = document.getElementById('side-page-container');
     sidePageContainerElement.innerHTML = '';
     sidePageContainerElement.classList.remove('animated');
@@ -95,6 +140,11 @@ function handleClickSaveClothing() {
     );
 }
 
+function handleClothingElementClick(id) {
+    const displayClothing = clothingList.find(clothing => clothing.id === id);
+    loadViewClothingView(displayClothing);
+}
+
 function handleUploadClothingImage() {
     const imageUploadInputValue = document.getElementById('clothing-photo').value;
     const fileNameElement = document.getElementById('clothing-photo-file-name');
@@ -102,8 +152,8 @@ function handleUploadClothingImage() {
     fileNameElement.innerText = `You uploaded: ${imageUploadInputValue.replace(/^.*[\\\/]/, '')}`;
 }
 
-function handleClickCloseAddClothingView() {
-    closeAddClothingView();
+function handleClickCloseSidePageContainer() {
+    closeSidePageContainer();
 }
 
 function handleClickAddClothingView() {
@@ -158,7 +208,6 @@ function saveClothing(imageFile, title, brand, category, price, color) {
     const newClothingElement = createClothingElement(clothing);
     clothesContainerElement.insertBefore(newClothingElement, clothesContainerElement.firstChild);
 }
-
 
 /*
 GENERAL HELPERS/VALIDATORS
@@ -217,7 +266,7 @@ function createClothingElement(clothing) {
     const { id, imageFile, brand, title, color, price } = clothing;
     const clothingElement = document.createElement('div');
     clothingElement.innerHTML = `
-        <div class="clothing" id="${id}">
+        <div class="clothing" id="${id}" onclick="handleClothingElementClick('${id}')">
             <img src="${imageFile}" alt="${id}">
             <div class="clothing-title">
                 <span class="brand">${brand} </span>
