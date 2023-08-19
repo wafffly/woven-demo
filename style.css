@@ -82,7 +82,7 @@ input, select {
     transition: border 0.3s ease-in;
 }
 
-.clothes-controls-container input[type=text]:focus {
+.clothes-controls-container input[type="text"]:focus {
     border: 2px solid rgb(93, 131, 145); 
 }
 
@@ -148,9 +148,14 @@ input, select {
     justify-content: center;
 }
 
-.add-clothing-form.disabled input, select, .upload-clothing-picture-button {
+.add-clothing-form.disabled input:disabled,
+.add-clothing-form.disabled input:-internal-autofill-selected,
+.add-clothing-form.disabled input[type=text]:disabled, 
+.add-clothing-form.disabled select:disabled, 
+.add-clothing-form.disabled .upload-clothing-picture-button {
     border-color: grey;
-    color: grey;
+    color: grey !important; 
+    cursor: auto;
 }
 
 .form-control {
@@ -188,8 +193,32 @@ input, select {
     margin-bottom: 8px;
 }
 
-.save-clothing-btn {
+.save-clothing-btn, 
+.add-another-clothing-btn {
     margin-top: 20px;
+}
+
+.save-clothing-btn.hide {
+    display: none;
+}
+
+.add-another-clothing-btn {
+    display: none;
+}
+
+.add-another-clothing-btn.show {
+    display: block;
+}
+
+.alert {
+    color: #648394;
+    font-size: 15px;
+    display: none;
+    font-weight: 400;
+}
+
+.alert.show {
+    display: inline;
 }
 
 @media (max-width: 800px) {

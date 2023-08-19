@@ -170,10 +170,20 @@ function displayAddClothingSuccess() {
     brandInput.disabled = true;
     categorySelect.disabled = true;
     priceInput.disabled = true;
+    colorInput.disabled = true;
 
     const addClothingFormElement = document.getElementById('add-clothing-form');
     addClothingFormElement.classList.add('disabled');
-    console.log("disabled");
+
+    // show alert that clothing was successfully saved
+    const clothingSavedAlert = document.getElementById('clothing-saved-alert');
+    clothingSavedAlert.classList.add('show');
+
+    // turn the save clothing button to reset the form
+    saveClothingButton.innerText = 'Add another piece';
+    // change the event listener to reset the form
+    saveClothingButton.removeEventListener('click', handleClickSaveClothing);
+    saveClothingButton.addEventListener('click', loadAddClothingView);
 }
 
 function validateSaveClothing(inputs) {
