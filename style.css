@@ -12,10 +12,12 @@ body {
     font-family: 'Lato', sans-serif;
     background-color: #f2f2f2;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
     font-weight: 300;
+    margin: 0;
 }
 
 button {
@@ -38,6 +40,19 @@ small.large {
     font-size: 18px;
     padding: 5px 10px;
     cursor: pointer;
+}
+
+.pages-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.controls-container {
+    margin: 0 40px 20px;
+    display: flex;
+    align-items: flex-start;
+    width: 90%;
 }
 
 .page-container {
@@ -251,6 +266,52 @@ input, select {
 .property-container .value {
     font-size: 18px;
     font-weight: 400;
+}
+
+.summary-property-container {
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-property-container .label {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.summary-property-container .value {
+    margin-top: 10px;
+}
+
+.summary-property-container .value.large {
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.summary-property-container ul {
+    padding-left: 22px;
+    margin: 0;
+}
+
+.summary-property-container ul li {
+    margin: 2px 0;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 30px;
+    background-color: rgb(235, 235, 235);
+    border-radius: 15px;
+    position: relative;
+}
+
+.progress {
+    height: 30px;
+    background-color: rgb(192 211 226);
+    border-radius: 15px;
+    position: absolute;
+    left: 0;
+    width: 50%;
 }
 
 @media (max-width: 800px) {

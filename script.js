@@ -1,3 +1,6 @@
+const switchViewButton = document.getElementById('switch-main-view');
+let currentView = 'view-clothes-container.html';
+
 let viewClothesContainerElement = document.getElementById('view-clothes-container');
 let clothesContainerElement = document.getElementById('clothes-container');
 let addClothingButton = document.getElementById('add-clothing');
@@ -33,6 +36,17 @@ function loadViewClothesView() {
         // Initialize main page by populating clothes
         populateClothes();
     });
+    closeSidePageContainer();
+}
+
+function loadViewClothingSummaryView() {
+    document.getElementById('main-page-container').classList.add('show');
+    setTimeout(() => {
+        document.getElementById('main-page-container').classList.add('animated');
+    }, 50);
+
+    $('#main-page-container').load('pages/clothing-summary-container.html');
+    closeSidePageContainer();
 }
 
 function loadAddClothingView() {
@@ -67,8 +81,6 @@ function loadViewClothingView(clothing) {
         setTimeout(() => {
             document.getElementById('side-page-container').classList.add('animated');
         }, 50);
-
-        console.log("loaded the piece!", clothing);
 
         // DOM elements
         closeViewClothingContainerButton = document.getElementById('close-view-clothing-container');
@@ -158,6 +170,19 @@ function handleClickCloseSidePageContainer() {
 
 function handleClickAddClothingView() {
     loadAddClothingView();
+}
+
+function handleSwitchMainPageContainer() {
+    const buttonText = title => `Switch to ${title}`;
+    if (currentView === 'view-clothes-container.html') {
+        currentView = 'clothing-summary-container.html';
+        switchViewButton.innerText = buttonText('View Clothes');
+        loadViewClothingSummaryView();
+    } else {
+        currentView = 'view-clothes-container.html';
+        switchViewButton.innerText = buttonText('Clothing Summary');
+        loadViewClothesView();
+    }
 }
 
 /*
@@ -286,3 +311,6 @@ function createClothingElement(clothing) {
 $(document).ready(function() {
     loadViewClothesView();
 })
+
+// Global event listeners
+switchViewButton.addEventListener('click', handleSwitchMainPageContainer);
