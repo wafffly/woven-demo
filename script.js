@@ -4,6 +4,7 @@ let currentView = 'view-clothes-container.html';
 let viewClothesContainerElement = document.getElementById('view-clothes-container');
 let clothesContainerElement = document.getElementById('clothes-container');
 let addClothingButton = document.getElementById('add-clothing');
+let logOutfitButton = document.getElementById('log-outfit');
 
 let imageUploadInput = document.getElementById('clothing-photo');
 let titleInput = document.getElementById('clothing-title');
@@ -29,9 +30,11 @@ function loadViewClothesView() {
         viewClothesContainerElement = document.getElementById('view-clothes-container');
         clothesContainerElement = document.getElementById('clothes-container');
         addClothingButton = document.getElementById('add-clothing');
+        logOutfitButton = document.getElementById('log-outfit');
 
         // Event handlers
         addClothingButton.addEventListener('click', handleClickAddClothingView);
+        logOutfitButton.addEventListener('click', handleClickLogOutfitView);
 
         // Initialize main page by populating clothes
         populateClothes();
@@ -40,10 +43,7 @@ function loadViewClothesView() {
 }
 
 function loadViewClothingSummaryView() {
-    document.getElementById('main-page-container').classList.add('show');
-    setTimeout(() => {
-        document.getElementById('main-page-container').classList.add('animated');
-    }, 50);
+    openSidePageContainer();
 
     $('#main-page-container').load('pages/clothing-summary-container.html');
     closeSidePageContainer();
@@ -51,10 +51,7 @@ function loadViewClothingSummaryView() {
 
 function loadAddClothingView() {
     $('#side-page-container').load('pages/add-clothing-container.html', () => {
-        document.getElementById('side-page-container').classList.add('show');
-        setTimeout(() => {
-            document.getElementById('side-page-container').classList.add('animated');
-        }, 50);
+        openSidePageContainer();
 
         // DOM elements
         closeAddClothingContainerButton = document.getElementById('close-add-clothing-container');
@@ -75,12 +72,21 @@ function loadAddClothingView() {
     });
 }
 
+function loadLogOutfitView() {
+    $('#side-page-container').load('pages/log-outfit-container.html', () => {
+        openSidePageContainer();
+
+        // DOM elements
+        closeLogOutfitContainerButton = document.getElementById('close-log-outfit-container');
+        
+        // Event handlers
+        closeLogOutfitContainerButton.addEventListener('click', handleClickCloseSidePageContainer);
+    });
+}
+
 function loadViewClothingView(clothing) {
     $("#side-page-container").load('pages/view-clothing-container.html', () => {
-        document.getElementById('side-page-container').classList.add('show');
-        setTimeout(() => {
-            document.getElementById('side-page-container').classList.add('animated');
-        }, 50);
+        openSidePageContainer();
 
         // DOM elements
         closeViewClothingContainerButton = document.getElementById('close-view-clothing-container');
@@ -116,6 +122,13 @@ function loadViewClothingView(clothing) {
         // Event handlers
         closeViewClothingContainerButton.addEventListener('click', handleClickCloseSidePageContainer);
     })
+}
+
+function openSidePageContainer() {
+    document.getElementById('side-page-container').classList.add('show');
+    setTimeout(() => {
+        document.getElementById('side-page-container').classList.add('animated');
+    }, 50);
 }
 
 function closeSidePageContainer() {
@@ -170,6 +183,10 @@ function handleClickCloseSidePageContainer() {
 
 function handleClickAddClothingView() {
     loadAddClothingView();
+}
+
+function handleClickLogOutfitView() {
+    loadLogOutfitView();
 }
 
 function handleSwitchMainPageContainer() {

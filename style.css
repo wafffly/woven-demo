@@ -109,7 +109,7 @@ input, select {
     border: 2px solid rgb(93, 131, 145); 
 }
 
-.add-clothing-btn {
+.clothes-controls-container .btn {
     margin-top: 10px;
     width: 100%;
 }
@@ -157,7 +157,8 @@ input, select {
 }
 
 .add-clothing-container,
-.view-clothing-container {
+.view-clothing-container,
+.log-outfit-container {
     position: relative;
 }
 
