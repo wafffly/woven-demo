@@ -5,7 +5,8 @@
     "brand": "&Daughter",
     "color": "cream",
     "category": "Top",
-    "price": 400.00
+    "price": 400.00,
+    "worn": 3
 }, {
     "id": "clothing-2",
     "imageFile": "../images/clothing-2.jpeg", 
@@ -13,7 +14,8 @@
     "brand": "Khaite",
     "color": "camel",
     "category": "Shoes",
-    "price": 300.00
+    "price": 300.00,
+    "worn": 0
 }, {
     "id": "clothing-3",
     "imageFile": "../images/clothing-3.jpeg", 
@@ -21,7 +23,8 @@
     "brand": "Maguire",
     "color": "black",
     "category": "Shoes",
-    "price": 200.00
+    "price": 200.00,
+    "worn": 2
 }, {
     "id": "clothing-4",
     "imageFile": "../images/clothing-4.jpeg", 
@@ -29,7 +32,8 @@
     "brand": "Harly Jae",
     "color": "beige",
     "category": "Pants",
-    "price": 240.00
+    "price": 240.00,
+    "worn": 5
 }, {
     "id": "clothing-5",
     "imageFile": "../images/clothing-5.jpeg", 
@@ -37,7 +41,8 @@
     "brand": "Arket",
     "color": "black/white stripes",
     "category": "Top",
-    "price": 40.00
+    "price": 40.00,
+    "worn": 7
 }, {
     "id": "clothing-6",
     "imageFile": "../images/clothing-6.jpeg", 
@@ -45,7 +50,8 @@
     "brand": "Arket",
     "color": "beige",
     "category": "Top",
-    "price": 35.00
+    "price": 35.00,
+    "worn": 1
 }, {
     "id": "clothing-7",
     "imageFile": "../images/clothing-7.jpeg", 
@@ -53,5 +59,6 @@
     "brand": "Kotn",
     "color": "green/beige checks",
     "category": "Accessory",
-    "price": 35.00
+    "price": 35.00,
+    "worn": 0
 }]

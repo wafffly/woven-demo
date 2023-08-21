@@ -191,12 +191,12 @@ input, select {
     flex-direction: column;
 }
 
-.form-control .error {
+.error {
     display: none;
     color: rgb(144, 32, 32);
 }
 
-.form-control .error.show {
+.error.show {
     display: inline;
 }
 
@@ -224,6 +224,10 @@ input, select {
 .add-another-clothing-btn,
 .save-outfit-btn {
     margin-top: 20px;
+}
+
+.save-outfit-btn {
+    margin-bottom: 10px;
 }
 
 .save-clothing-btn.hide {

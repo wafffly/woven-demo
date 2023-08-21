@@ -5,6 +5,7 @@ let viewClothesContainerElement = document.getElementById('view-clothes-containe
 let clothesContainerElement = document.getElementById('clothes-container');
 let addClothingButton = document.getElementById('add-clothing');
 let logOutfitButton = document.getElementById('log-outfit');
+let saveOutfitButton = document.getElementById('save-outfit');
 
 let imageUploadInput = document.getElementById('clothing-photo');
 let titleInput = document.getElementById('clothing-title');
@@ -85,6 +86,7 @@ function loadLogOutfitView() {
         closeLogOutfitContainerButton = document.getElementById('close-log-outfit-container');
         logOutfitSelect = document.getElementById('add-clothing-for-outfit');
         selectedPiecesList = document.getElementById('selected-pieces-list');
+        saveOutfitButton = document.getElementById('save-outfit');
 
         // Initialize data
         loadLogOutfitSelect();
@@ -92,6 +94,7 @@ function loadLogOutfitView() {
         // Event handlers
         closeLogOutfitContainerButton.addEventListener('click', handleClickCloseSidePageContainer);
         logOutfitSelect.addEventListener('change', handleLogOutfitSelect);
+        saveOutfitButton.addEventListener('click', handleClickSaveOutfit);
     });
 }
 
@@ -107,6 +110,7 @@ function loadViewClothingView(clothing) {
         viewColorContainer = document.getElementById('view-clothing-color');
         viewCategoryContainer = document.getElementById('view-clothing-category');
         viewPriceContainer = document.getElementById('view-clothing-price');
+        viewWornContainer = document.getElementById('view-clothing-worn');
 
         viewImageContainer.src = clothing.imageFile;
         viewBrandContainer.innerHTML = `
@@ -128,6 +132,10 @@ function loadViewClothingView(clothing) {
         viewPriceContainer.innerHTML = `
             <span class='label'>Price</span>
             <span class='value'>${clothing.price}</span>
+        `;
+        viewWornContainer.innerHTML = `
+            <span class='label'>Number of Wears</span>
+            <span class='value'>${clothing.worn}</span>
         `;
 
         // Event handlers
@@ -221,6 +229,21 @@ function handleLogOutfitSelect(e) {
     loadLogOutfitSelect();
 }
 
+function handleClickSaveOutfit() {
+    const outfitSavedAlert = document.getElementById('outfit-saved-alert');
+    outfitSavedAlert.classList.remove('show');
+
+    // validate if the outfit is empty (no clothes)
+    const outfitEmptyErrorElement = document.getElementById('outfit-empty-error');
+    outfitEmptyErrorElement.classList.remove('show');
+
+    if (selectedClothingForOutfitList.length === 0) {
+        outfitEmptyErrorElement.classList.add('show');
+        return;
+    }
+    saveLogOutfit();
+}
+
 /*
 FETCH DATA / SAVE DATA
 */
@@ -277,7 +300,8 @@ function saveClothing(imageFile, title, brand, category, price, color) {
         title,
         color,
         price,
-        category
+        category,
+        worn: 0
     };
 
     clothingList.push(clothing);
@@ -325,6 +349,20 @@ function loadSelectedPiecesList() {
         selectedClothingElement.innerText = `${clothing.brand} ${clothing.title}`
         selectedPiecesList.insertBefore(selectedClothingElement, selectedPiecesList.firstChild);
     })
+}
+
+function saveLogOutfit() {
+    selectedClothingForOutfitList.forEach(selectedClothingId => {
+        const clothingIndex = clothingList.findIndex(clothing => selectedClothingId === clothing.id);
+        clothingList[clothingIndex].worn++;
+    })
+
+    // save the clothing list to local storage
+    saveClothingLocalStorage();
+
+    // display successfully saved alert
+    const outfitSavedAlert = document.getElementById('outfit-saved-alert');
+    outfitSavedAlert.classList.add('show');
 }
 
 function validateSaveClothing(inputs) {
