@@ -12,9 +12,12 @@ let brandInput = document.getElementById('clothing-brand');
 let categorySelect = document.getElementById('clothing-category');
 let priceInput = document.getElementById('clothing-price');
 let colorInput = document.getElementById('clothing-color');
+let logOutfitSelect = document.getElementById('add-clothing-for-outfit');
+let selectedPiecesList = document.getElementById('selected-pieces-list');
 
 let nextId = 1;
 let clothingList = [];
+let selectedClothingForOutfitList = [];
 
 /*
 HANDLE PAGE LOADS AND REMOVES
@@ -76,11 +79,19 @@ function loadLogOutfitView() {
     $('#side-page-container').load('pages/log-outfit-container.html', () => {
         openSidePageContainer();
 
+        selectedClothingForOutfitList = [];
+
         // DOM elements
         closeLogOutfitContainerButton = document.getElementById('close-log-outfit-container');
+        logOutfitSelect = document.getElementById('add-clothing-for-outfit');
+        selectedPiecesList = document.getElementById('selected-pieces-list');
+
+        // Initialize data
+        loadLogOutfitSelect();
         
         // Event handlers
         closeLogOutfitContainerButton.addEventListener('click', handleClickCloseSidePageContainer);
+        logOutfitSelect.addEventListener('change', handleLogOutfitSelect);
     });
 }
 
@@ -202,6 +213,14 @@ function handleSwitchMainPageContainer() {
     }
 }
 
+function handleLogOutfitSelect(e) {
+    if (e.target.value === "none") return;
+    // add the selected item into the selected list
+    selectedClothingForOutfitList.push(e.target.value);
+    loadSelectedPiecesList();
+    loadLogOutfitSelect();
+}
+
 /*
 FETCH DATA / SAVE DATA
 */
@@ -221,6 +240,25 @@ async function populateClothes() {
         nextId++;
         const clothingElement = createClothingElement(clothing);
         clothesContainerElement.insertBefore(clothingElement, clothesContainerElement.firstChild);
+    })
+}
+
+function loadLogOutfitSelect() {
+    logOutfitSelect.innerHTML = '';
+
+    const defaultElement = document.createElement('option');
+    defaultElement.value = 'none';
+    defaultElement.innerText = 'Select clothing';
+    logOutfitSelect.appendChild(defaultElement);
+
+    clothingList
+        .filter(clothing => !selectedClothingForOutfitList.includes(clothing.id))
+        .forEach(clothing => {
+        const clothingSelectionElement = document.createElement('option');
+        clothingSelectionElement.value = clothing.id;
+        clothingSelectionElement.innerText = `${clothing.brand} ${clothing.title}`;
+
+        logOutfitSelect.appendChild(clothingSelectionElement);
     })
 }
 
@@ -275,6 +313,18 @@ function displayAddClothingSuccess() {
     // change the event listener to reset the form
     saveClothingButton.removeEventListener('click', handleClickSaveClothing);
     saveClothingButton.addEventListener('click', loadAddClothingView);
+}
+
+function loadSelectedPiecesList() {
+    // load the selected pieces of an outfit
+    selectedPiecesList.innerHTML = '';
+    selectedClothingForOutfitList.forEach(clothingId => {
+        const clothing = clothingList.find(item => item.id === clothingId);
+
+        const selectedClothingElement = document.createElement('li');
+        selectedClothingElement.innerText = `${clothing.brand} ${clothing.title}`
+        selectedPiecesList.insertBefore(selectedClothingElement, selectedPiecesList.firstChild);
+    })
 }
 
 function validateSaveClothing(inputs) {
