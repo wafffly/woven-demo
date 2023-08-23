@@ -1,20 +1,12 @@
-const switchViewButton = document.getElementById('switch-main-view');
+import {
+    domSelect 
+} from '/scripts/utils.js';
+import {
+    loadAddClothingView
+} from '/scripts/add-clothing.js';
+
+const switchViewButton = domSelect('switch-main-view');
 let currentView = 'view-clothes-container.html';
-
-let viewClothesContainerElement = document.getElementById('view-clothes-container');
-let clothesContainerElement = document.getElementById('clothes-container');
-let addClothingButton = document.getElementById('add-clothing');
-let logOutfitButton = document.getElementById('log-outfit');
-let saveOutfitButton = document.getElementById('save-outfit');
-
-let imageUploadInput = document.getElementById('clothing-photo');
-let titleInput = document.getElementById('clothing-title');
-let brandInput = document.getElementById('clothing-brand');
-let categorySelect = document.getElementById('clothing-category');
-let priceInput = document.getElementById('clothing-price');
-let colorInput = document.getElementById('clothing-color');
-let logOutfitSelect = document.getElementById('add-clothing-for-outfit');
-let selectedPiecesList = document.getElementById('selected-pieces-list');
 
 let nextId = 1;
 let clothingList = [];
@@ -24,21 +16,15 @@ let selectedClothingForOutfitList = [];
 HANDLE PAGE LOADS AND REMOVES
 */
 function loadViewClothesView() {
-    document.getElementById('main-page-container').classList.add('show');
+    domSelect('main-page-container').classList.add('show');
     setTimeout(() => {
-        document.getElementById('main-page-container').classList.add('animated');
+        domSelect('main-page-container').classList.add('animated');
     }, 50);
 
     $('#main-page-container').load('pages/view-clothes-container.html', () => {
-        // DOM elements
-        viewClothesContainerElement = document.getElementById('view-clothes-container');
-        clothesContainerElement = document.getElementById('clothes-container');
-        addClothingButton = document.getElementById('add-clothing');
-        logOutfitButton = document.getElementById('log-outfit');
-
         // Event handlers
-        addClothingButton.addEventListener('click', handleClickAddClothingView);
-        logOutfitButton.addEventListener('click', handleClickLogOutfitView);
+        domSelect('add-clothing').addEventListener('click', handleClickAddClothingView);
+        domSelect('log-outfit').addEventListener('click', handleClickLogOutfitView);
 
         // Initialize main page by populating clothes
         populateClothes();
@@ -53,48 +39,19 @@ function loadViewClothingSummaryView() {
     closeSidePageContainer();
 }
 
-function loadAddClothingView() {
-    $('#side-page-container').load('pages/add-clothing-container.html', () => {
-        openSidePageContainer();
-
-        // DOM elements
-        closeAddClothingContainerButton = document.getElementById('close-add-clothing-container');
-        uploadClothingImageInput = document.getElementById('clothing-photo');
-        saveClothingButton = document.getElementById('save-clothing');
-
-        imageUploadInput = document.getElementById('clothing-photo');
-        titleInput = document.getElementById('clothing-title');
-        brandInput = document.getElementById('clothing-brand');
-        categorySelect = document.getElementById('clothing-category');
-        priceInput = document.getElementById('clothing-price');
-        colorInput = document.getElementById('clothing-color');
-
-        // Event handlers
-        closeAddClothingContainerButton.addEventListener('click', handleClickCloseSidePageContainer);
-        saveClothingButton.addEventListener('click', handleClickSaveClothing);
-        uploadClothingImageInput.addEventListener('change', handleUploadClothingImage);
-    });
-}
-
 function loadLogOutfitView() {
     $('#side-page-container').load('pages/log-outfit-container.html', () => {
         openSidePageContainer();
 
         selectedClothingForOutfitList = [];
 
-        // DOM elements
-        closeLogOutfitContainerButton = document.getElementById('close-log-outfit-container');
-        logOutfitSelect = document.getElementById('add-clothing-for-outfit');
-        selectedPiecesList = document.getElementById('selected-pieces-list');
-        saveOutfitButton = document.getElementById('save-outfit');
-
         // Initialize data
         loadLogOutfitSelect();
         
         // Event handlers
-        closeLogOutfitContainerButton.addEventListener('click', handleClickCloseSidePageContainer);
-        logOutfitSelect.addEventListener('change', handleLogOutfitSelect);
-        saveOutfitButton.addEventListener('click', handleClickSaveOutfit);
+        domSelect('close-log-outfit-container').addEventListener('click', handleClickCloseSidePageContainer);
+        domSelect('add-clothing-for-outfit').addEventListener('change', handleLogOutfitSelect);
+        domSelect('save-outfit').addEventListener('click', handleClickSaveOutfit);
     });
 }
 
@@ -102,101 +59,91 @@ function loadViewClothingView(clothing) {
     $("#side-page-container").load('pages/view-clothing-container.html', () => {
         openSidePageContainer();
 
-        // DOM elements
-        closeViewClothingContainerButton = document.getElementById('close-view-clothing-container');
-        viewImageContainer = document.getElementById('view-clothing-img');
-        viewBrandContainer = document.getElementById('view-clothing-brand');
-        viewTitleContainer = document.getElementById('view-clothing-title');
-        viewColorContainer = document.getElementById('view-clothing-color');
-        viewCategoryContainer = document.getElementById('view-clothing-category');
-        viewPriceContainer = document.getElementById('view-clothing-price');
-        viewWornContainer = document.getElementById('view-clothing-worn');
-
-        viewImageContainer.src = clothing.imageFile;
-        viewBrandContainer.innerHTML = `
+        domSelect('view-clothing-img').src = clothing.imageFile;
+        domSelect('view-clothing-brand').innerHTML = `
             <span class='label'>Brand</span>
             <span class='value'>${clothing.brand}</span>
         `;
-        viewTitleContainer.innerHTML = `
+        domSelect('view-clothing-title').innerHTML = `
             <span class='label'>Title</span>
             <span class='value'>${clothing.title}</span>
         `;
-        viewColorContainer.innerHTML = `
+        domSelect('view-clothing-color').innerHTML = `
             <span class='label'>Color</span>
             <span class='value'>${clothing.color}</span>
         `;
-        viewCategoryContainer.innerHTML = `
+        domSelect('view-clothing-category').innerHTML = `
             <span class='label'>Category</span>
             <span class='value'>${clothing.category}</span>
         `;
-        viewPriceContainer.innerHTML = `
+        domSelect('view-clothing-price').innerHTML = `
             <span class='label'>Price</span>
             <span class='value'>${clothing.price}</span>
         `;
-        viewWornContainer.innerHTML = `
+        domSelect('view-clothing-worn').innerHTML = `
             <span class='label'>Number of Wears</span>
             <span class='value'>${clothing.worn}</span>
         `;
 
         // Event handlers
-        closeViewClothingContainerButton.addEventListener('click', handleClickCloseSidePageContainer);
+        domSelect('close-view-clothing-container').addEventListener('click', handleClickCloseSidePageContainer);
     })
 }
 
-function openSidePageContainer() {
-    document.getElementById('side-page-container').classList.add('show');
+window.openSidePageContainer = () => {
+    domSelect('side-page-container').classList.add('show');
     setTimeout(() => {
-        document.getElementById('side-page-container').classList.add('animated');
+        domSelect('side-page-container').classList.add('animated');
     }, 50);
 }
 
-function closeSidePageContainer() {
-    const sidePageContainerElement = document.getElementById('side-page-container');
+window.closeSidePageContainer = () => {
+    const sidePageContainerElement = domSelect('side-page-container');
     sidePageContainerElement.innerHTML = '';
     sidePageContainerElement.classList.remove('animated');
     setTimeout(() => {
-        document.getElementById('side-page-container').classList.remove('show');
+        domSelect('side-page-container').classList.remove('show');
     }, 300);
 }
 
 /*
 EVENT HANDLERS
 */
-function handleClickSaveClothing() {
+window.handleClickSaveClothing = () => {
     const isValid = validateSaveClothing([
-        imageUploadInput, 
-        titleInput, 
-        brandInput,
-        categorySelect, 
-        priceInput, 
-        colorInput
+        domSelect('clothing-photo'), 
+        domSelect('clothing-title'), 
+        domSelect('clothing-brand'),
+        domSelect('clothing-category'), 
+        domSelect('clothing-price'), 
+        domSelect('clothing-color')
     ]);
 
     if (!isValid) return;
 
     saveClothing(
-        imageUploadInput, 
-        titleInput.value, 
-        brandInput.value,
-        categorySelect.value, 
-        priceInput.value, 
-        colorInput.value
+        domSelect('clothing-photo'), 
+        domSelect('clothing-title').value, 
+        domSelect('clothing-brand').value,
+        domSelect('clothing-category').value, 
+        domSelect('clothing-price').value, 
+        domSelect('clothing-color').value
     );
 }
 
-function handleClothingElementClick(id) {
+window.handleClothingElementClick = id => {
     const displayClothing = clothingList.find(clothing => clothing.id === id);
     loadViewClothingView(displayClothing);
 }
 
-function handleUploadClothingImage() {
-    const imageUploadInputValue = document.getElementById('clothing-photo').value;
-    const fileNameElement = document.getElementById('clothing-photo-file-name');
+window.handleUploadClothingImage = () => {
+    const imageUploadInputValue = domSelect('clothing-photo').value;
+    const fileNameElement = domSelect('clothing-photo-file-name');
 
     fileNameElement.innerText = `You uploaded: ${imageUploadInputValue.replace(/^.*[\\\/]/, '')}`;
 }
 
-function handleClickCloseSidePageContainer() {
+window.handleClickCloseSidePageContainer = () => {
     closeSidePageContainer();
 }
 
@@ -230,11 +177,11 @@ function handleLogOutfitSelect(e) {
 }
 
 function handleClickSaveOutfit() {
-    const outfitSavedAlert = document.getElementById('outfit-saved-alert');
+    const outfitSavedAlert = domSelect('outfit-saved-alert');
     outfitSavedAlert.classList.remove('show');
 
     // validate if the outfit is empty (no clothes)
-    const outfitEmptyErrorElement = document.getElementById('outfit-empty-error');
+    const outfitEmptyErrorElement = domSelect('outfit-empty-error');
     outfitEmptyErrorElement.classList.remove('show');
 
     if (selectedClothingForOutfitList.length === 0) {
@@ -262,17 +209,17 @@ async function populateClothes() {
     clothingList.forEach(clothing => {
         nextId++;
         const clothingElement = createClothingElement(clothing);
-        clothesContainerElement.insertBefore(clothingElement, clothesContainerElement.firstChild);
+        domSelect('clothes-container').insertBefore(clothingElement, domSelect('clothes-container').firstChild);
     })
 }
 
 function loadLogOutfitSelect() {
-    logOutfitSelect.innerHTML = '';
+    domSelect('add-clothing-for-outfit').innerHTML = '';
 
     const defaultElement = document.createElement('option');
     defaultElement.value = 'none';
     defaultElement.innerText = 'Select clothing';
-    logOutfitSelect.appendChild(defaultElement);
+    domSelect('add-clothing-for-outfit').appendChild(defaultElement);
 
     clothingList
         .filter(clothing => !selectedClothingForOutfitList.includes(clothing.id))
@@ -281,7 +228,7 @@ function loadLogOutfitSelect() {
         clothingSelectionElement.value = clothing.id;
         clothingSelectionElement.innerText = `${clothing.brand} ${clothing.title}`;
 
-        logOutfitSelect.appendChild(clothingSelectionElement);
+        domSelect('add-clothing-for-outfit').appendChild(clothingSelectionElement);
     })
 }
 
@@ -310,7 +257,7 @@ function saveClothing(imageFile, title, brand, category, price, color) {
     displayAddClothingSuccess();
 
     const newClothingElement = createClothingElement(clothing);
-    clothesContainerElement.insertBefore(newClothingElement, clothesContainerElement.firstChild);
+    domSelect('clothes-container').insertBefore(newClothingElement, domSelect('clothes-container').firstChild);
 }
 
 /*
@@ -318,29 +265,28 @@ GENERAL HELPERS/VALIDATORS
 */
 function displayAddClothingSuccess() {
     // make all the inputs disabled
-    imageUploadInput.disabled = true;
-    titleInput.disabled = true;
-    brandInput.disabled = true;
-    categorySelect.disabled = true;
-    priceInput.disabled = true;
-    colorInput.disabled = true;
+    domSelect('clothing-photo').disabled = true;
+    domSelect('clothing-title').disabled = true;
+    domSelect('clothing-brand').disabled = true;
+    domSelect('clothing-category').disabled = true;
+    domSelect('clothing-price').disabled = true;
+    domSelect('clothing-color').disabled = true;
 
-    const addClothingFormElement = document.getElementById('add-clothing-form');
-    addClothingFormElement.classList.add('disabled');
+    domSelect('add-clothing-form').classList.add('disabled');
 
     // show alert that clothing was successfully saved
-    const clothingSavedAlert = document.getElementById('clothing-saved-alert');
-    clothingSavedAlert.classList.add('show');
+    domSelect('clothing-saved-alert').classList.add('show');
 
     // turn the save clothing button to reset the form
-    saveClothingButton.innerText = 'Add another piece';
+    domSelect('save-clothing').innerText = 'Add another piece';
     // change the event listener to reset the form
-    saveClothingButton.removeEventListener('click', handleClickSaveClothing);
-    saveClothingButton.addEventListener('click', loadAddClothingView);
+    domSelect('save-clothing').removeEventListener('click', handleClickSaveClothing);
+    domSelect('save-clothing').addEventListener('click', loadAddClothingView);
 }
 
 function loadSelectedPiecesList() {
     // load the selected pieces of an outfit
+    const selectedPiecesList = domSelect('selected-pieces-list');
     selectedPiecesList.innerHTML = '';
     selectedClothingForOutfitList.forEach(clothingId => {
         const clothing = clothingList.find(item => item.id === clothingId);
@@ -361,15 +307,14 @@ function saveLogOutfit() {
     saveClothingLocalStorage();
 
     // display successfully saved alert
-    const outfitSavedAlert = document.getElementById('outfit-saved-alert');
-    outfitSavedAlert.classList.add('show');
+    domSelect('outfit-saved-alert').classList.add('show');
 }
 
 function validateSaveClothing(inputs) {
     let isValid = true;
 
     inputs.forEach(input => {
-        const smallText = document.getElementById(`${input.id}-small`);
+        const smallText = domSelect(`${input.id}-small`);
 
         // clear the errors first
         smallText.classList.remove('show');
