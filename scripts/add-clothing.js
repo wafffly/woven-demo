@@ -1,7 +1,9 @@
 import { addToClothingList } from './clothing-dao.js';
 import {
     domSelect,
-    getNextClothingId
+    getNextClothingId,
+    hideDomElement,
+    showDomElement
 } from './utils.js';
 
 const getFields = () => {
@@ -30,16 +32,16 @@ const validateSaveClothing = () => {
     let isValid = true;
 
     Object.values(getFields()).forEach(input => {
-        const smallText = domSelect(`${input.id}-small`);
+        const smallTextId = `${input.id}-small`;
 
         // clear the errors first
-        smallText.classList.remove('show');
-        smallText.innerText = '';
+        hideDomElement(smallTextId);
+        domSelect(smallTextId).innerText = '';
         
         if (input.value.trim() === '') {
             isValid = false;
-            smallText.innerText = `${input.name} is required.`;
-            smallText.classList.add('show');
+            domSelect(smallTextId).innerText = `${input.name} is required.`;
+            showDomElement(smallTextId);
         }
     });
 
@@ -93,7 +95,7 @@ const displayAddClothingSuccess = () => {
     domSelect('add-clothing-form').classList.add('disabled');
 
     // show alert that clothing was successfully saved
-    domSelect('clothing-saved-alert').classList.add('show');
+    showDomElement('clothing-saved-alert');
 
     // turn the save clothing button to reset the form
     domSelect('save-clothing').innerText = 'Add another piece';

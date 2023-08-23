@@ -15,6 +15,7 @@ import {
     loadClothingList,
     getClothingList,
 } from './scripts/clothing-dao.js';
+import { hideFadeDomElement, showFadeDomElement } from './scripts/utils.js';
 
 const switchViewButton = domSelect('switch-main-view');
 let currentView = 'view-clothes-container.html';
@@ -23,10 +24,7 @@ let currentView = 'view-clothes-container.html';
 HANDLE PAGE LOADS AND REMOVES
 */
 function loadViewClothesView() {
-    domSelect('main-page-container').classList.add('show');
-    setTimeout(() => {
-        domSelect('main-page-container').classList.add('animated');
-    }, 50);
+    showFadeDomElement('main-page-container');
 
     $('#main-page-container').load('pages/view-clothes-container.html', () => {
         // Event handlers
@@ -45,19 +43,12 @@ function loadViewClothingSummaryView() {
 }
 
 window.openSidePageContainer = () => {
-    domSelect('side-page-container').classList.add('show');
-    setTimeout(() => {
-        domSelect('side-page-container').classList.add('animated');
-    }, 50);
+    showFadeDomElement('side-page-container');
 }
 
 window.closeSidePageContainer = () => {
-    const sidePageContainerElement = domSelect('side-page-container');
-    sidePageContainerElement.innerHTML = '';
-    sidePageContainerElement.classList.remove('animated');
-    setTimeout(() => {
-        domSelect('side-page-container').classList.remove('show');
-    }, 300);
+    domSelect('side-page-container').innerHTML = '';
+    hideFadeDomElement('side-page-container');
 }
 
 /*

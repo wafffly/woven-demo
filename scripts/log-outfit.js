@@ -1,5 +1,5 @@
 import {
-    domSelect
+    domSelect, hideDomElement, showDomElement
 } from './utils.js';
 import {
     getClothingList,
@@ -17,13 +17,12 @@ const handleLogOutfitSelect = (e) => {
 }
 
 const handleClickSaveOutfit = () => {
-    domSelect('outfit-saved-alert').classList.remove('show');
+    hideDomElement('outfit-saved-alert');
+    hideDomElement('outfit-empty-error');
 
     // validate if the outfit is empty (no clothes)
-    domSelect('outfit-empty-error').classList.remove('show');
-
     if (selectedClothingForOutfitList.length === 0) {
-        domSelect('outfit-empty-error').classList.add('show');
+        showDomElement('outfit-empty-error');
         return;
     }
     saveLogOutfit();
@@ -52,7 +51,7 @@ const saveLogOutfit = () => {
     saveClothingList();
 
     // display successfully saved alert
-    domSelect('outfit-saved-alert').classList.add('show');
+    showDomElement('outfit-saved-alert');
 }
 
 const loadLogOutfitSelect = () => {
