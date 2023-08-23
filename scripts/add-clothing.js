@@ -4,6 +4,17 @@ import {
     getNextClothingId
 } from './utils.js';
 
+const getFields = () => {
+    return {
+        clothingPhoto: domSelect('clothing-photo'), 
+        clothingTitle: domSelect('clothing-title'), 
+        clothingBrand: domSelect('clothing-brand'),
+        clothingCategory: domSelect('clothing-category'), 
+        clothingPrice: domSelect('clothing-price'), 
+        clothingColor: domSelect('clothing-color')
+    };
+}
+
 const loadAddClothingView = () => {
     $('#side-page-container').load('pages/add-clothing-container.html', () => {
         openSidePageContainer();
@@ -15,10 +26,10 @@ const loadAddClothingView = () => {
     });
 }
 
-const validateSaveClothing = inputs => {
+const validateSaveClothing = () => {
     let isValid = true;
 
-    inputs.forEach(input => {
+    Object.values(getFields()).forEach(input => {
         const smallText = domSelect(`${input.id}-small`);
 
         // clear the errors first
@@ -38,25 +49,9 @@ const validateSaveClothing = inputs => {
 // HANDLERS
 
 const handleClickSaveClothing = () => {
-    const isValid = validateSaveClothing([
-        domSelect('clothing-photo'), 
-        domSelect('clothing-title'), 
-        domSelect('clothing-brand'),
-        domSelect('clothing-category'), 
-        domSelect('clothing-price'), 
-        domSelect('clothing-color')
-    ]);
-
+    const isValid = validateSaveClothing();
     if (!isValid) return;
-
-    saveClothing(
-        domSelect('clothing-photo'), 
-        domSelect('clothing-title').value, 
-        domSelect('clothing-brand').value,
-        domSelect('clothing-category').value, 
-        domSelect('clothing-price').value, 
-        domSelect('clothing-color').value
-    );
+    saveClothing();
 }
 
 const handleUploadClothingImage = () => {
@@ -68,16 +63,17 @@ const handleUploadClothingImage = () => {
 
 // HELPERS
 
-const saveClothing = (imageFile, title, brand, category, price, color) => {
-    const imageFileURL = URL.createObjectURL(imageFile.files[0]);
+const saveClothing = () => {
+    const fields = getFields();
+    const imageFileURL = URL.createObjectURL(fields.clothingPhoto.files[0]);
     const clothing = {
         id: getNextClothingId(),
         imageFile: imageFileURL,
-        brand,
-        title,
-        color,
-        price,
-        category,
+        brand: fields.clothingBrand.value,
+        title: fields.clothingTitle.value,
+        color: fields.clothingColor.value,
+        price: fields.clothingPrice.value,
+        category: fields.clothingCategory.value,
         worn: 0
     };
 
@@ -92,12 +88,7 @@ const saveClothing = (imageFile, title, brand, category, price, color) => {
 
 const displayAddClothingSuccess = () => {
     // make all the inputs disabled
-    domSelect('clothing-photo').disabled = true;
-    domSelect('clothing-title').disabled = true;
-    domSelect('clothing-brand').disabled = true;
-    domSelect('clothing-category').disabled = true;
-    domSelect('clothing-price').disabled = true;
-    domSelect('clothing-color').disabled = true;
+    Object.values(getFields()).forEach(field => field.disabled = true);
 
     domSelect('add-clothing-form').classList.add('disabled');
 
