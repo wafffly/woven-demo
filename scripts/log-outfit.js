@@ -1,10 +1,5 @@
-import {
-    domSelect, hideDomElement, showDomElement
-} from './utils.js';
-import {
-    getClothingList,
-    saveClothingList
-} from './clothing-dao.js';
+import { domSelect, hideDomElement, showDomElement } from './utils.js';
+import { getClothingList, saveClothingList } from './clothing-dao.js';
 
 let selectedClothingForOutfitList = [];
 

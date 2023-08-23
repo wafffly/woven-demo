@@ -1,6 +1,4 @@
-import {
-    domSelect
-} from './utils.js';
+import { domSelect } from './utils.js';
 
 const clothingFieldsConfig = {
     brand: { title: 'Brand' },

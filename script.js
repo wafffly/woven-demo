@@ -1,20 +1,8 @@
-import {
-    domSelect,
-    getNextClothingId
-} from '/scripts/utils.js';
-import {
-    loadAddClothingView
-} from '/scripts/add-clothing.js';
-import {
-    loadViewClothingView
-} from '/scripts/view-clothing.js';
-import {
-    loadLogOutfitView
-} from '/scripts/log-outfit.js';
-import { 
-    loadClothingList,
-    getClothingList,
-} from './scripts/clothing-dao.js';
+import { domSelect, getNextClothingId } from '/scripts/utils.js';
+import { loadAddClothingView } from '/scripts/add-clothing.js';
+import { loadViewClothingView } from '/scripts/view-clothing.js';
+import { loadLogOutfitView } from '/scripts/log-outfit.js';
+import { loadClothingList, getClothingList } from './scripts/clothing-dao.js';
 import { hideFadeDomElement, showFadeDomElement } from './scripts/utils.js';
 
 const switchViewButton = domSelect('switch-main-view');
