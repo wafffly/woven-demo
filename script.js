@@ -1,15 +1,19 @@
 import {
-    domSelect 
+    domSelect,
+    getNextClothingId
 } from '/scripts/utils.js';
 import {
-    loadAddClothingView
+    loadAddClothingView,
 } from '/scripts/add-clothing.js';
+import { 
+    loadClothingList,
+    getClothingList,
+    saveClothingList
+} from './scripts/clothing-dao.js';
 
 const switchViewButton = domSelect('switch-main-view');
 let currentView = 'view-clothes-container.html';
 
-let nextId = 1;
-let clothingList = [];
 let selectedClothingForOutfitList = [];
 
 /*
@@ -132,7 +136,7 @@ window.handleClickSaveClothing = () => {
 }
 
 window.handleClothingElementClick = id => {
-    const displayClothing = clothingList.find(clothing => clothing.id === id);
+    const displayClothing = getClothingList().find(clothing => clothing.id === id);
     loadViewClothingView(displayClothing);
 }
 
@@ -195,19 +199,10 @@ function handleClickSaveOutfit() {
 FETCH DATA / SAVE DATA
 */
 async function populateClothes() {
-    nextId = 1;
-    clothingList = [];
-    // first check the local storage for clothes
-    if (localStorage.getItem('clothing') != null) {
-        clothingList = JSON.parse(localStorage.getItem('clothing'));
-    } else {
-        clothingList = await fetch('data/clothing.json')
-            .then(res => res.json());
-        saveClothingLocalStorage();
-    }
+    loadClothingList();
 
-    clothingList.forEach(clothing => {
-        nextId++;
+    getClothingList().forEach(clothing => {
+        getNextClothingId();
         const clothingElement = createClothingElement(clothing);
         domSelect('clothes-container').insertBefore(clothingElement, domSelect('clothes-container').firstChild);
     })
@@ -221,7 +216,7 @@ function loadLogOutfitSelect() {
     defaultElement.innerText = 'Select clothing';
     domSelect('add-clothing-for-outfit').appendChild(defaultElement);
 
-    clothingList
+    getClothingList()
         .filter(clothing => !selectedClothingForOutfitList.includes(clothing.id))
         .forEach(clothing => {
         const clothingSelectionElement = document.createElement('option');
@@ -232,64 +227,16 @@ function loadLogOutfitSelect() {
     })
 }
 
-function saveClothingLocalStorage() {
-    if (clothingList !== []) {
-        localStorage.setItem('clothing', JSON.stringify(clothingList));
-    }
-}
-
-function saveClothing(imageFile, title, brand, category, price, color) {
-    const imageFileURL = URL.createObjectURL(imageFile.files[0]);
-    const clothing = {
-        id: getNextClothingId(),
-        imageFile: imageFileURL,
-        brand,
-        title,
-        color,
-        price,
-        category,
-        worn: 0
-    };
-
-    clothingList.push(clothing);
-    saveClothingLocalStorage();
-
-    displayAddClothingSuccess();
-
-    const newClothingElement = createClothingElement(clothing);
-    domSelect('clothes-container').insertBefore(newClothingElement, domSelect('clothes-container').firstChild);
-}
-
 /*
 GENERAL HELPERS/VALIDATORS
 */
-function displayAddClothingSuccess() {
-    // make all the inputs disabled
-    domSelect('clothing-photo').disabled = true;
-    domSelect('clothing-title').disabled = true;
-    domSelect('clothing-brand').disabled = true;
-    domSelect('clothing-category').disabled = true;
-    domSelect('clothing-price').disabled = true;
-    domSelect('clothing-color').disabled = true;
-
-    domSelect('add-clothing-form').classList.add('disabled');
-
-    // show alert that clothing was successfully saved
-    domSelect('clothing-saved-alert').classList.add('show');
-
-    // turn the save clothing button to reset the form
-    domSelect('save-clothing').innerText = 'Add another piece';
-    // change the event listener to reset the form
-    domSelect('save-clothing').removeEventListener('click', handleClickSaveClothing);
-    domSelect('save-clothing').addEventListener('click', loadAddClothingView);
-}
 
 function loadSelectedPiecesList() {
     // load the selected pieces of an outfit
     const selectedPiecesList = domSelect('selected-pieces-list');
     selectedPiecesList.innerHTML = '';
     selectedClothingForOutfitList.forEach(clothingId => {
-        const clothing = clothingList.find(item => item.id === clothingId);
+        const clothing = getClothingList().find(item => item.id === clothingId);
 
         const selectedClothingElement = document.createElement('li');
         selectedClothingElement.innerText = `${clothing.brand} ${clothing.title}`
@@ -299,45 +246,21 @@ function loadSelectedPiecesList() {
 
 function saveLogOutfit() {
     selectedClothingForOutfitList.forEach(selectedClothingId => {
-        const clothingIndex = clothingList.findIndex(clothing => selectedClothingId === clothing.id);
-        clothingList[clothingIndex].worn++;
+        const clothingIndex = getClothingList().findIndex(clothing => selectedClothingId === clothing.id);
+        getClothingList()[clothingIndex].worn++;
     })
 
     // save the clothing list to local storage
-    saveClothingLocalStorage();
+    saveClothingList();
 
     // display successfully saved alert
     domSelect('outfit-saved-alert').classList.add('show');
 }
 
-function validateSaveClothing(inputs) {
-    let isValid = true;
-
-    inputs.forEach(input => {
-        const smallText = domSelect(`${input.id}-small`);
-
-        // clear the errors first
-        smallText.classList.remove('show');
-        smallText.innerText = '';
-        
-        if (input.value.trim() === '') {
-            isValid = false;
-            smallText.innerText = `${input.name} is required.`;
-            smallText.classList.add('show');
-        }
-    });
-
-    return isValid;
-}
-
-function getNextClothingId() {
-    return `clothing-${nextId++}`;
-}
-
 /*
 DOM ELEMENT CREATION HELPERS
 */
-function createClothingElement(clothing) {
+window.createClothingElement = clothing => {
     const { id, imageFile, brand, title, color, price } = clothing;
     const clothingElement = document.createElement('div');
     clothingElement.innerHTML = `
