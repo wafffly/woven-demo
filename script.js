@@ -40,8 +40,6 @@ function loadViewClothesView() {
 }
 
 function loadViewClothingSummaryView() {
-    openSidePageContainer();
-
     $('#main-page-container').load('pages/clothing-summary-container.html');
     closeSidePageContainer();
 }
