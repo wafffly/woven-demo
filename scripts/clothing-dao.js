@@ -1,4 +1,9 @@
 let clothingList = [];
+let nextId = 1;
+
+const getNextClothingId = () => {
+    return `clothing-${nextId++}`;
+}
 
 const loadClothingList = async () => {
     clothingList = [];
@@ -18,7 +23,7 @@ const saveClothingList = () => {
     }
 }
 
-const addToClothingList = (clothing) => {
+const appendClothingList = (clothing) => {
     clothingList.push(clothing);
     saveClothingList();
 }
@@ -26,7 +31,8 @@ const addToClothingList = (clothing) => {
 const getClothingList = () => clothingList;
 
 export {
-    addToClothingList,
+    getNextClothingId,
+    appendClothingList,
     loadClothingList,
     saveClothingList,
     getClothingList

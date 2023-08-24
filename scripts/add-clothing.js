@@ -1,7 +1,6 @@
-import { addToClothingList } from './clothing-dao.js';
+import { appendClothingList, getNextClothingId } from './clothing-dao.js';
 import {
     domSelect,
-    getNextClothingId,
     hideDomElement,
     showDomElement
 } from './utils.js';
@@ -79,11 +78,11 @@ const saveClothing = () => {
         worn: 0
     };
 
-    addToClothingList(clothing);
+    appendClothingList(clothing);
+    appendClothingElement(clothing);
+
     displayAddClothingSuccess();
 
-    const newClothingElement = createClothingElement(clothing);
-    domSelect('clothes-container').insertBefore(newClothingElement, domSelect('clothes-container').firstChild);
 }
 
 // DOM HELPERS

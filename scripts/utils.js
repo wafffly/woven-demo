@@ -1,9 +1,3 @@
-let nextId = 1;
-
-const getNextClothingId = () => {
-    return `clothing-${nextId++}`;
-}
-
 // DOM UTILS
 
 const domSelect = id => document.getElementById(id);
@@ -35,6 +29,5 @@ export {
     hideDomElement,
     showDomElement,
     showFadeDomElement,
-    hideFadeDomElement,
-    getNextClothingId
+    hideFadeDomElement
 };
