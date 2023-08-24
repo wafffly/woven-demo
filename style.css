@@ -129,7 +129,7 @@ input, select {
     border-radius: 10px;
     align-items: center;
     cursor: pointer;
-    height: 300px;
+    min-height: 300px;
     box-shadow: rgba(100, 100, 111, 0.3) 0px 7px 29px 0px;
 }
 
@@ -145,10 +145,15 @@ input, select {
 .clothing-title {
     border-bottom: 1px solid rgb(162, 204, 220);
     padding-bottom: 5px;
+    text-align: center;
 }
 
 .clothing-title .brand {
     font-weight: 400;
+}
+
+.clothing-info {
+    text-align: center;
 }
 
 .add-clothing-form-container,
@@ -346,5 +351,10 @@ input, select {
 
     .clothes-container {
         grid-template-columns: repeat(1, 1fr);
+    }
+
+    .side-page-container {
+        z-index: 100;
+        position: absolute;
     }
 }
